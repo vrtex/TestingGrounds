@@ -31,7 +31,6 @@ EBTNodeResult::Type UChooseNextWaypoint::ExecuteTask(UBehaviorTreeComponent & Ow
 
 	int32 CurrentIndex = BlackboardComp->GetValueAsInt(IndexKey.SelectedKeyName);
 
-	UE_LOG(LogTemp, Warning, TEXT("KROWA: %s, current: %d, next: %d"), *(*PatrolPoints)[CurrentIndex]->GetName(), CurrentIndex, (CurrentIndex + 1) % PatrolPoints->Num());
 	BlackboardComp->SetValueAsObject(
 		Waypoint.SelectedKeyName,
 		(*PatrolPoints)[CurrentIndex]
