@@ -23,19 +23,19 @@ EBTNodeResult::Type UChooseNextWaypoint::ExecuteTask(UBehaviorTreeComponent & Ow
 		return EBTNodeResult::Failed;
 
 
-	TArray<AActor *> * PatrolPoints = Guard->GetPatrolPoints();
-	if(!PatrolPoints)
+	TArray<AActor *> & PatrolPoints (Guard->GetPatrolPoints());
+	if(!(&PatrolPoints))
 		return EBTNodeResult::Failed;
-	if(PatrolPoints->Num() == 0)
+	if(PatrolPoints.Num() == 0)
 		return EBTNodeResult::Succeeded;
 
 	int32 CurrentIndex = BlackboardComp->GetValueAsInt(IndexKey.SelectedKeyName);
 
 	BlackboardComp->SetValueAsObject(
 		Waypoint.SelectedKeyName,
-		(*PatrolPoints)[CurrentIndex]
+		(PatrolPoints)[CurrentIndex]
 	);
-	int32 NextIndex = ++CurrentIndex % PatrolPoints->Num();
+	int32 NextIndex = ++CurrentIndex % PatrolPoints.Num();
 	BlackboardComp->SetValueAsInt(IndexKey.SelectedKeyName, NextIndex);
 
 

@@ -23,7 +23,8 @@ public:
 	void BeginPlay() override;
 public:
 
-	TArray<AActor *> * GetPatrolPoints() override;
+	virtual TArray<AActor *> & GetPatrolPoints() override;
+
 
 	UPROPERTY(EditInstanceOnly, Category = "PatrolRoute" )
 		TArray<AActor *> PatrolPoints;

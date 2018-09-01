@@ -22,5 +22,8 @@ class TESTINGGROUNDS_API IPatrollingUnit
 {
 public:
 	GENERATED_IINTERFACE_BODY()
-		virtual TArray<AActor *> * GetPatrolPoints() = 0;
+
+
+	virtual TArray<AActor *> & GetPatrolPoints() = 0;
+
 };

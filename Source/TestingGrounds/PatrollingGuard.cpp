@@ -14,7 +14,8 @@ void APatrollingGuard::BeginPlay()
 	Super::BeginPlay();
 }
 
-TArray<AActor*>* APatrollingGuard::GetPatrolPoints()
+TArray<AActor*> & APatrollingGuard::GetPatrolPoints()
 {
-	return &PatrolPoints;
+	return PatrolPoints;
 }
+
