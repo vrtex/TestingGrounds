@@ -37,7 +37,11 @@ EBTNodeResult::Type UChooseNextWaypoint::ExecuteTask(UBehaviorTreeComponent & Ow
 	);
 	int32 NextIndex = ++CurrentIndex % PatrolPoints.Num();
 	BlackboardComp->SetValueAsInt(IndexKey.SelectedKeyName, NextIndex);
-
+	
+	BlackboardComp->SetValueAsObject(
+		NextWaypoint.SelectedKeyName,
+		(PatrolPoints)[NextIndex]
+	);
 
 	return EBTNodeResult::Succeeded;
 }
