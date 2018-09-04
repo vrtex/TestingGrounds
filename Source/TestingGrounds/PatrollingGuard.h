@@ -11,7 +11,7 @@
  * 
  */
 UCLASS()
-class TESTINGGROUNDS_API APatrollingGuard : public ATP_ThirdPersonCharacter, public IPatrollingUnit
+class TESTINGGROUNDS_API APatrollingGuard : public ATP_ThirdPersonCharacter//, public IPatrollingUnit
 {
 	GENERATED_BODY()
 	
@@ -22,11 +22,15 @@ public:
 
 	void BeginPlay() override;
 public:
-
+	/*
 	virtual TArray<AActor *> & GetPatrolPoints() override;
+
+	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+	USkeletalMeshComponent * GuardGun = nullptr;
 
 
 	UPROPERTY(EditInstanceOnly, Category = "PatrolRoute" )
 		TArray<AActor *> PatrolPoints;
+	*/
 	
 };

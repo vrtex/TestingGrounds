@@ -14,6 +14,8 @@
 
 ATP_ThirdPersonCharacter::ATP_ThirdPersonCharacter()
 {
+
+	
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 
@@ -45,6 +47,26 @@ ATP_ThirdPersonCharacter::ATP_ThirdPersonCharacter()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
+
+}
+
+void ATP_ThirdPersonCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+
+	if(RifleClass != nullptr)
+	{
+		Gun = GetWorld()->SpawnActor<ARifle>(RifleClass.Get(), FVector(0), FRotator(0));
+		Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
+	}
+	else
+		UE_LOG(LogTemp, Error, TEXT("No rifle class on guard"));
+
+}
+
+TArray<AActor*>& ATP_ThirdPersonCharacter::GetPatrolPoints()
+{
+	return PatrolPoints;
 }
 
 //////////////////////////////////////////////////////////////////////////

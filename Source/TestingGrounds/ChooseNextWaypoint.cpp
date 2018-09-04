@@ -7,9 +7,14 @@
 
 EBTNodeResult::Type UChooseNextWaypoint::ExecuteTask(UBehaviorTreeComponent & OwnerComp, uint8 * NodeMemory)
 {
+	
 	UBlackboardComponent * BlackboardComp = OwnerComp.GetBlackboardComponent();
 	if(!BlackboardComp)
 		return EBTNodeResult::Failed;
+
+	// check if guard needs new waypoint (true: has waypoint, no need to get next)
+	if(BlackboardComp->GetValueAsBool(ControlKey.SelectedKeyName))
+		return EBTNodeResult::Succeeded;
 
 
 	AAIController * AIComp = OwnerComp.GetAIOwner();
@@ -42,6 +47,9 @@ EBTNodeResult::Type UChooseNextWaypoint::ExecuteTask(UBehaviorTreeComponent & Ow
 		NextWaypoint.SelectedKeyName,
 		(PatrolPoints)[NextIndex]
 	);
+
+	// Set guard has next waypoint flag. To be reset after reaching waypoint
+	BlackboardComp->SetValueAsBool(ControlKey.SelectedKeyName, true);
 
 	return EBTNodeResult::Succeeded;
 }

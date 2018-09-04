@@ -4,10 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Components/SkeletalMeshComponent.h"
+#include "PatrollingUnit.h"
+#include "Weapons/Rifle/Rifle.h"
+#include "Runtime/AIModule/Classes/GenericTeamAgentInterface.h"
 #include "TP_ThirdPersonCharacter.generated.h"
 
 UCLASS(config=Game)
-class ATP_ThirdPersonCharacter : public ACharacter
+class ATP_ThirdPersonCharacter : public ACharacter, public IPatrollingUnit
 {
 	GENERATED_BODY()
 
@@ -18,8 +22,13 @@ class ATP_ThirdPersonCharacter : public ACharacter
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FollowCamera;
+
+public:
+
 public:
 	ATP_ThirdPersonCharacter();
+
+	void BeginPlay() override;
 
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
@@ -28,6 +37,16 @@ public:
 	/** Base look up/down rate, in deg/sec. Other scaling may affect final rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
+
+	virtual TArray<AActor *> & GetPatrolPoints() override;
+
+
+	UPROPERTY(EditInstanceOnly, Category = "PatrolRoute")
+		TArray<AActor *> PatrolPoints;
+
+
+private:
+	FGenericTeamId TeamId = FGenericTeamId::NoTeam;
 
 protected:
 
@@ -68,5 +87,15 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+private:
+
+	// Gun spawned at BeginPlay
+	ARifle * Gun;
+
+public:
+	UPROPERTY(EditAnywhere, Category = "Gameplay")
+		TSubclassOf<ARifle> RifleClass;
+
 };
 
